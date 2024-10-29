@@ -3,13 +3,6 @@ pipeline {
     tools { 
         maven 'maven'
     }
-    environment {
-        NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "192.168.1.55:8081"
-        NEXUS_REPOSITORY = "maven-nexus-repo"
-        NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
-    }
     stages {
         stage ("Clean up"){
             steps {
@@ -21,12 +14,20 @@ pipeline {
                 sh "git clone https://github.com/MaBouz/exp1-spring.git"
             }
         }
-        stage('Build') {
+        stage('Generate backend image') {
             steps {
                 dir("exp1-spring"){
                       sh "mvn clean install"
+                      sh "docker build -t docexp1.spring ."
                   }
             }
         }
+        stage ("Run docker compose") {
+            steps {
+            dir("exp1.spring"){
+                sh " docker compose up -d"
+        }
     }
+  }
 }
+                }
