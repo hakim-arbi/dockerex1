@@ -24,7 +24,7 @@ pipeline {
         }
         stage ("Run docker compose") {
             steps {
-            dir("exp1.spring"){
+            dir("exp1-spring"){
                 sh "sudo docker compose up -d"
         }
     }
